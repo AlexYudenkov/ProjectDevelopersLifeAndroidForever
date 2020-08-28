@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var next: ImageView
     private lateinit var prev: ImageView
+    private lateinit var Image: ImageView
     //private val progressDialog: ImageView =
 
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private fun unit(){
         next = findViewById(R.id.imageView4)
         prev = findViewById(R.id.imageView3)
+        Image =findViewById(R.id.imageView2)
         val context = getApplicationContext();
 
 
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         //обработка нажатия на кнопку next
         next.setOnClickListener(View.OnClickListener {
             presenter.comtex = applicationContext
+            presenter.image = Image
             presenter.ad() })
 
         //обработка на жатия на кнопку prev
