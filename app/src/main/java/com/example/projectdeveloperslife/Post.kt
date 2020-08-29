@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName
 data class Post (
     val description: String,
     val id: Long,
-    val gifURL: String,
+    var gifURL: String,
     val votes: Int,
     val author: String,
     val date: String,

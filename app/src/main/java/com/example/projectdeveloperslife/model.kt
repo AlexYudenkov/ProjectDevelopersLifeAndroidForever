@@ -1,6 +1,5 @@
 package com.example.projectdeveloperslife
 
-import android.os.AsyncTask
 import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
@@ -11,74 +10,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class model {
 
+    var listener: (()->Unit)? = null
+    private var mListener //listener field
+            : Observer? = null
 
-    var Presenter = presenter()
-    private var url: String? = null
+    //setting the listener
+    fun setCustomEventListener(eventListener: Observer?) {
+        mListener = eventListener
+    }
+
+    var url: String? = null
     var netWork = NetworkService()
 
     private var information:String = ""
 
-    /*fun ret():Callback<Post> {
-        @Override
-        fun onFailure(call: Call<Post>?, t: Throwable?) {
-            Log.v("retrofit", "call failed")
-        }
-        @Override
-        fun on(call: Call<Post>?, t: Throwable?) {
-            Log.v("retrofit", "call failed")
-        }
-        @Override
-        fun onResponse(call: Call<Post>?, response: Response<Post>?) {
-            val post = response?.body()
-            if (post != null) {
-                Log.d("Daady", post.getId().toString())
-            }
-        }
-    }*/
-
-    /*internal fun getCurrentData() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(netInterface::class.java)
-        val call = service.messages()
-        call?.enqueue(object : Callback<Post> {
-            override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
-                if (response.code() == 200) {
-                    val weatherResponse = response.body()!!
-
-                    val stringBuilder = "Country: " +
-                            weatherResponse.sys!!.country +
-                            "\n" +
-                            "Temperature: " +
-                            weatherResponse.main!!.temp +
-                            "\n" +
-                            "Temperature(Min): " +
-                            weatherResponse.main!!.temp_min +
-                            "\n" +
-                            "Temperature(Max): " +
-                            weatherResponse.main!!.temp_max +
-                            "\n" +
-                            "Humidity: " +
-                            weatherResponse.main!!.humidity +
-                            "\n" +
-                            "Pressure: " +
-                            weatherResponse.main!!.pressure
-
-                    weatherData!!.text = stringBuilder
-                }
-            }
-
-            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                weatherData!!.text = t.message
-            }
-        })
-    }*/
 
 
-
-    fun randomgif():Boolean {
+    fun performWork( myCallback: (result: Post?) -> Unit) {
 
         var mRetrofit = Retrofit.Builder()
             .baseUrl("https://developerslife.ru")
@@ -98,10 +46,14 @@ class model {
                     if (response.code() == 200) {
                         val post = response.body()!!
                         url = post.gifURL
-                        Presenter.url1 = url as String
+                        //Presenter.url1 = url as String
                         Log.i("Proverka",url)
+                        mListener?.OnEvent(url)
+                        myCallback.invoke(post)
+                        }
+
                     }
-                }
+
 
                 override fun onFailure(call: Call<Post?>, t: Throwable) {
                     Log.i("Proverka","No")
@@ -110,7 +62,6 @@ class model {
             })
         }
 
-        return true
     }
             fun getString():String{
                 return url.toString()
