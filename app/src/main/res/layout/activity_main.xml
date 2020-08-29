@@ -8,11 +8,13 @@
     android:backgroundTint="#FFFFFF"
     tools:context=".MainActivity">
 
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="sans-serif-medium"
         android:text="Developers Life"
         android:textColor="#000000"
@@ -35,7 +37,7 @@
 
     <ImageView
         android:id="@+id/okno"
-        android:layout_width="wrap_content"
+        android:layout_width="411dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,18 +47,18 @@
         app:srcCompat="@drawable/region" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/prev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="108dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintBottom_toBottomOf="@+id/next"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/back" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -67,7 +69,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/okno"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.951"
         app:srcCompat="@drawable/next" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -111,5 +113,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <ImageView
+        android:id="@+id/screen"
+        android:layout_width="367dp"
+        android:layout_height="447dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/okno"
+        app:layout_constraintEnd_toEndOf="@+id/okno"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/okno"
+        app:layout_constraintTop_toTopOf="@+id/okno"
+        app:layout_constraintVertical_bias="0.371"
+        app:srcCompat="@drawable/region" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
