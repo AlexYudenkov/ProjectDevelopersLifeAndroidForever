@@ -34,7 +34,7 @@
         app:srcCompat="@drawable/ic_profile" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/okno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/okno"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/next" />
 
