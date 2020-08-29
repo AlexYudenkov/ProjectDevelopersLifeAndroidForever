@@ -14,9 +14,9 @@ class presenter {
     public fun ad(){
             model.randomgif()
             var url = model.getString()
-            Glide.with(comtex)
-            .load("http://static.devli.ru/public/images/gifs/201502/8c89d2e3-7095-4d93-a0f9-1de4739c76f1.gif")
-                .into(image)
+            Glide.with(comtex).asGif()
+            .load("https://static.devli.ru/public/images/gifs/201310/da8dc5d8-cea5-47ec-af50-c5c2c078cfc4.gif")
+            .into(image)
             //.placeholder(R.id.imageView)
     }
 }
