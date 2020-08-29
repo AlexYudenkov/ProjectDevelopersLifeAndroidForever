@@ -3,6 +3,7 @@ package com.example.projectdeveloperslife
 import android.app.Activity
 import android.app.PendingIntent.getActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         Image = findViewById(R.id.imageView)
+        //Log.i("Proverka","click")
         unit()
         /*Glide.with(applicationContext)
             .load("https://static.devli.ru/public/images/previews/201308/d0906011-2d12-489a-af69-d9446402c2ed.jpg")
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         //обработка нажатия на кнопку next
         next.setOnClickListener(View.OnClickListener {
+            Log.i("Proverka","click")
             presenter.comtex = context
             presenter.image = Image
             presenter.ad()
