@@ -1,10 +1,7 @@
 package com.example.projectdeveloperslife
 
-import android.content.Context
-import android.os.AsyncTask
 import android.util.Log
-import android.widget.ImageView
-import com.bumptech.glide.Glide
+import com.example.projectdeveloperslife.HotApi.HotApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,20 +28,24 @@ class model {
         //прасит строку
         //Network
         if (r != null) {
-            r.enqueue(object: Callback<Post?> {
+            r.enqueue(object: Callback<ListPost?> {
 
-                override fun onResponse(call: Call<Post?>, response: Response<Post?>) {
+                override fun onResponse(call: Call<ListPost?>, response: Response<ListPost?>) {
                     Log.i("Proverka","yes")
                     Log.i("Proverka", response.code().toString())
                     if (response.code() == 200) {
                         val post = response.body()!!
-                        mutList.mutableList.add(post)
+                        var i:Int =0
+                        while(i < post.result.size){
+                            mutList.mutableList.add(post.result[i])
+                            i++
+                        }
                         Log.i("Proverka",url)
 
                     }
                 }
 
-                override fun onFailure(call: Call<Post?>, t: Throwable) {
+                override fun onFailure(call: Call<ListPost?>, t: Throwable) {
                     Log.i("Proverka","No")
                     Log.e("error1", t.toString());
             }
@@ -66,20 +67,24 @@ class model {
         //прасит строку
         //Network
         if (r != null) {
-            r.enqueue(object: Callback<Post?> {
+            r.enqueue(object: Callback<ListPost?> {
 
-                override fun onResponse(call: Call<Post?>, response: Response<Post?>) {
+                override fun onResponse(call: Call<ListPost?>, response: Response<ListPost?>) {
                     Log.i("Proverka","yes")
                     Log.i("Proverka", response.code().toString())
                     if (response.code() == 200) {
                         val post = response.body()!!
-                        mutList.mutableList.add(post)
+                        var i:Int =0
+                        while(i < post.result.size){
+                            mutList.mutableList.add(post.result[i])
+                            i++
+                        }
                         Log.i("Proverka",url)
 
                     }
                 }
 
-                override fun onFailure(call: Call<Post?>, t: Throwable) {
+                override fun onFailure(call: Call<ListPost?>, t: Throwable) {
                     Log.i("Proverka","No")
                     Log.e("error1", t.toString());
                 }
@@ -101,20 +106,25 @@ class model {
         //прасит строку
         //Network
         if (r != null) {
-            r.enqueue(object: Callback<Post?> {
+            r.enqueue(object: Callback<ListPost?> {
 
-                override fun onResponse(call: Call<Post?>, response: Response<Post?>) {
+                override fun onResponse(call: Call<ListPost?>, response: Response<ListPost?>) {
                     Log.i("Proverka","yes")
                     Log.i("Proverka", response.code().toString())
                     if (response.code() == 200) {
                         val post = response.body()!!
-                        mutList.mutableList.add(post)
+                        var i:Int =0
+                        while(i < post.result.size){
+                            mutList.mutableList.add(post.result[i])
+                            i++
+                        }
+
                         Log.i("Proverka",url)
 
                     }
                 }
 
-                override fun onFailure(call: Call<Post?>, t: Throwable) {
+                override fun onFailure(call: Call<ListPost?>, t: Throwable) {
                     Log.i("Proverka","No")
                     Log.e("error1", t.toString());
                 }

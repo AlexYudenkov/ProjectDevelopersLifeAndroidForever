@@ -164,7 +164,7 @@
         app:layout_constraintStart_toStartOf="@+id/okno"
         app:layout_constraintTop_toTopOf="@+id/okno"
         app:layout_constraintVertical_bias="0.371"
-        app:srcCompat="@drawable/region" />
+        app:srcCompat="@drawable/regioninside" />
 
     <TextView
         android:id="@+id/description"
@@ -179,5 +179,21 @@
         app:layout_constraintBottom_toBottomOf="@+id/screen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="354dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="217dp"
+        android:layout_marginTop="217dp"
+        android:layout_marginEnd="217dp"
+        android:layout_marginBottom="211dp"
+        android:text="В этом разделе пока нет постов ("
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/screen"
+        app:layout_constraintEnd_toEndOf="@+id/screen"
+        app:layout_constraintStart_toStartOf="@+id/screen"
+        app:layout_constraintTop_toTopOf="@+id/screen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

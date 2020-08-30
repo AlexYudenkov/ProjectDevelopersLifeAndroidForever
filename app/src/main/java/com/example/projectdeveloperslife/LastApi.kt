@@ -4,6 +4,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface LastApi {
-    @GET("random?json=true ")
-    fun messagesLast(): Call<Post>
+    @GET("latest/0?json=true")
+    fun messagesLast(): Call<ListPost?>
 }
