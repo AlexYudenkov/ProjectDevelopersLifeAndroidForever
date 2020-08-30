@@ -1,7 +1,10 @@
 package com.example.projectdeveloperslife
 
+import android.content.Context
 import android.graphics.drawable.AnimationDrawable
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -23,13 +26,9 @@ class MainActivity : AppCompatActivity()  {
     private lateinit var HotBlue: TextView
     private lateinit var Description: TextView
     private lateinit var Notification: TextView
-
-    //private lateinit var manager:android.app.FragmentManager
-    //private lateinit var transaction:android.app.FragmentTransaction
-    //private var screen: Screen = Screen()
-
+    private lateinit var Conection: TextView
     private val presenter = presenter()
-
+    
     var iLast:Int = 0
     var iTop:Int = 0
     var iHot:Int = 0
@@ -50,11 +49,13 @@ class MainActivity : AppCompatActivity()  {
         LastBlue = findViewById(R.id.lastblue)
         TopBlue = findViewById(R.id.topblue)
         HotBlue = findViewById(R.id.hotblue)
+        Conection = findViewById(R.id.conecting)
         Notification = findViewById(R.id.notification)
         LastBlue.setVisibility(View.VISIBLE);
         TopBlue.setVisibility(View.INVISIBLE);
         HotBlue.setVisibility(View.INVISIBLE);
         Notification.setVisibility(View.INVISIBLE);
+        Conection.setVisibility(View.INVISIBLE);
 
         next = findViewById(R.id.next)
         prev = findViewById(R.id.prev)
@@ -65,34 +66,40 @@ class MainActivity : AppCompatActivity()  {
         val animation = Image.getBackground() as AnimationDrawable
         animation.start()
 
+        if(!isOnline()){Conection.setVisibility(View.VISIBLE);}
 
-        Start(mutListLast, mutListTop, mutListHot, sectionNow)
+        else Start(mutListLast, mutListTop, mutListHot, sectionNow)
 
 
-
-       Last.setOnClickListener(View.OnClickListener {
+        Last.setOnClickListener(View.OnClickListener {
            LastBlue.setVisibility(View.VISIBLE);
            TopBlue.setVisibility(View.INVISIBLE);
            HotBlue.setVisibility(View.INVISIBLE);
+            if(!isOnline()){}
+            else {
+                if (mutListLast.mutableList.size == 0) {
+                    Notification.setVisibility(View.VISIBLE); Glide.with(
+                        applicationContext
+                    ).asGif()
+                        .load("https://cdn1.savepice.ru/uploads/2020/8/30/11a11f76205a16263b650b8fcd4700c8-full.png")
+                        .into(Image)
+                }
+                else {
+                    Notification.setVisibility(View.INVISIBLE);
+                    val handler2 = Handler()
+                    handler2.postDelayed({
+                        var fulurl: String = "https"
+                        var url: String = mutListLast.mutableList[iLast].gifURL.toString()
+                        var backurl: String = url.drop(4)
+                        fulurl += backurl
+                        Glide.with(applicationContext).asGif()
+                            .load(fulurl.toString())
+                            .into(Image)
+                        Description.setText(mutListLast.mutableList[iLast].description.toString())
 
-           if(mutListLast.mutableList.size == 0){Notification.setVisibility(View.VISIBLE); Glide.with(applicationContext).asGif()
-               .load("https://cdn1.savepice.ru/uploads/2020/8/30/11a11f76205a16263b650b8fcd4700c8-full.png")
-               .into(Image)}
-           else {
-               Notification.setVisibility(View.INVISIBLE);
-               val handler2 = android.os.Handler()
-               handler2.postDelayed({
-                   var fulurl: String = "https"
-                   var url: String = mutListLast.mutableList[iLast].gifURL.toString()
-                   var backurl: String = url.drop(4)
-                   fulurl += backurl
-                   Glide.with(applicationContext).asGif()
-                       .load(fulurl.toString())
-                       .into(Image)
-                   Description.setText(mutListLast.mutableList[iLast].description.toString())
-
-               }, 1500)
-           }
+                    }, 1500)
+                }
+            }
            sectionNow = 1
 
        })
@@ -101,65 +108,81 @@ class MainActivity : AppCompatActivity()  {
             LastBlue.setVisibility(View.INVISIBLE);
             TopBlue.setVisibility(View.VISIBLE);
             HotBlue.setVisibility(View.INVISIBLE);
-            if(mutListTop.mutableList.size == 0){Notification.setVisibility(View.VISIBLE);Glide.with(applicationContext).asGif()
-                .load("https://cdn1.savepice.ru/uploads/2020/8/30/11a11f76205a16263b650b8fcd4700c8-full.png")
-                .into(Image) }
+            if(!isOnline()){}
             else {
-                Notification.setVisibility(View.INVISIBLE);
-                val handler2 = android.os.Handler()
-                handler2.postDelayed({
-                    var fulurl: String = "https"
-                    var url: String = mutListTop.mutableList[iTop].gifURL.toString()
-                    var backurl: String = url.drop(4)
-                    fulurl += backurl
-                    Glide.with(applicationContext).asGif()
-                        .load(fulurl.toString())
+                if (mutListTop.mutableList.size == 0) {
+                    Notification.setVisibility(View.VISIBLE);Glide.with(
+                        applicationContext
+                    ).asGif()
+                        .load("https://cdn1.savepice.ru/uploads/2020/8/30/11a11f76205a16263b650b8fcd4700c8-full.png")
                         .into(Image)
+                }
+                else {
+                    Notification.setVisibility(View.INVISIBLE);
+                    val handler2 = Handler()
+                    handler2.postDelayed({
+                        var fulurl: String = "https"
+                        var url: String = mutListTop.mutableList[iTop].gifURL.toString()
+                        var backurl: String = url.drop(4)
+                        fulurl += backurl
+                        Glide.with(applicationContext).asGif()
+                            .load(fulurl.toString())
+                            .into(Image)
 
-                }, 1500)
-                Description.setText(mutListTop.mutableList[iTop].description.toString())
+                    }, 1500)
+                    Description.setText(mutListTop.mutableList[iTop].description.toString())
+                }
             }
             sectionNow = 2
+
         })
 
         Hot.setOnClickListener(View.OnClickListener {
             HotBlue.setVisibility(View.VISIBLE);
             LastBlue.setVisibility(View.INVISIBLE);
             TopBlue.setVisibility(View.INVISIBLE);
-            if(mutListHot.mutableList.size == 0){Notification.setVisibility(View.VISIBLE);Glide.with(applicationContext).asGif()
-                .load("https://cdn1.savepice.ru/uploads/2020/8/30/11a11f76205a16263b650b8fcd4700c8-full.png")
-                .into(Image)}
+            if(!isOnline()){}
             else {
-                Notification.setVisibility(View.INVISIBLE);
-                val handler2 = android.os.Handler()
-                handler2.postDelayed({
-                    var fulurl: String = "https"
-                    var url: String = mutListHot.mutableList[iHot].gifURL.toString()
-                    var backurl: String = url.drop(4)
-                    fulurl += backurl
-                    Glide.with(applicationContext).asGif()
-                        .load(fulurl.toString())
+                if (mutListHot.mutableList.size == 0) {
+                    Notification.setVisibility(View.VISIBLE);Glide.with(
+                        applicationContext
+                    ).asGif()
+                        .load("https://cdn1.savepice.ru/uploads/2020/8/30/11a11f76205a16263b650b8fcd4700c8-full.png")
                         .into(Image)
+                }
+                else {
+                    Notification.setVisibility(View.INVISIBLE);
+                    val handler2 = Handler()
+                    handler2.postDelayed({
+                        var fulurl: String = "https"
+                        var url: String = mutListHot.mutableList[iHot].gifURL.toString()
+                        var backurl: String = url.drop(4)
+                        fulurl += backurl
+                        Glide.with(applicationContext).asGif()
+                            .load(fulurl.toString())
+                            .into(Image)
 
-                }, 1500)
-                Description.setText(mutListHot.mutableList[iHot].description.toString())
+                    }, 1500)
+                    Description.setText(mutListHot.mutableList[iHot].description.toString())
+                }
             }
             sectionNow = 3
         })
 
 
         next.setOnClickListener(View.OnClickListener {
-                if(sectionNow == 1) {
+            if(!isOnline()){}
+            else {
+                if (sectionNow == 1) {
                     if (mutListLast.mutableList.size == 0) {
-                    }
-                    else {
+                    } else {
                         iLast++
                         Log.i("Proverka", "" + iLast)
 
                         if (iLast + 1 == mutListLast.mutableList.size) {
                             presenter.addLast(mutListLast)
 
-                            val handler2 = android.os.Handler()
+                            val handler2 = Handler()
                             handler2.postDelayed({
                                 var fulurl: String = "https"
                                 var url: String = mutListLast.mutableList[iLast].gifURL.toString()
@@ -183,31 +206,20 @@ class MainActivity : AppCompatActivity()  {
                         }
                     }
                 }
-                if(sectionNow == 2){
-                        if(mutListTop.mutableList.size == 0){}
-                        else {
-                            iTop++
-                            //Log.i("Proverka",""+i)
+                if (sectionNow == 2) {
+                    if (mutListTop.mutableList.size == 0) {
+                    } else {
+                        iTop++
+                        //Log.i("Proverka",""+i)
 
-                            if (iTop + 1 == mutListTop.mutableList.size) {
-                                presenter.addTop(mutListTop)
+                        if (iTop + 1 == mutListTop.mutableList.size) {
+                            presenter.addTop(mutListTop)
 
-                            }
+                        }
 
-                            if (iTop + 1 == mutListTop.mutableList.size) {
-                                val handler2 = android.os.Handler()
-                                handler2.postDelayed({
-                                    var fulurl: String = "https"
-                                    var url: String = mutListTop.mutableList[iTop].gifURL.toString()
-                                    var backurl: String = url.drop(4)
-                                    fulurl += backurl
-                                    Glide.with(context).asGif()
-                                        .load(fulurl.toString())
-                                        .into(Image)
-
-                                }, 3000)
-                                Description.setText(mutListTop.mutableList[iTop].description.toString())
-                            } else {
+                        if (iTop + 1 == mutListTop.mutableList.size) {
+                            val handler2 = Handler()
+                            handler2.postDelayed({
                                 var fulurl: String = "https"
                                 var url: String = mutListTop.mutableList[iTop].gifURL.toString()
                                 var backurl: String = url.drop(4)
@@ -215,36 +227,36 @@ class MainActivity : AppCompatActivity()  {
                                 Glide.with(context).asGif()
                                     .load(fulurl.toString())
                                     .into(Image)
-                                Description.setText(mutListTop.mutableList[iTop].description.toString())
-                            }
+
+                            }, 3000)
+                            Description.setText(mutListTop.mutableList[iTop].description.toString())
+                        } else {
+                            var fulurl: String = "https"
+                            var url: String = mutListTop.mutableList[iTop].gifURL.toString()
+                            var backurl: String = url.drop(4)
+                            fulurl += backurl
+                            Glide.with(context).asGif()
+                                .load(fulurl.toString())
+                                .into(Image)
+                            Description.setText(mutListTop.mutableList[iTop].description.toString())
                         }
+                    }
 
                 }
-                if(sectionNow == 3){
-                        if(mutListHot.mutableList.size == 0){}
-                        else {
-                            iHot++
-                            //Log.i("Proverka",""+i)
+                if (sectionNow == 3) {
+                    if (mutListHot.mutableList.size == 0) {
+                    } else {
+                        iHot++
+                        //Log.i("Proverka",""+i)
 
-                            if (iHot + 1 == mutListHot.mutableList.size) {
-                                presenter.addHot(mutListHot)
+                        if (iHot + 1 == mutListHot.mutableList.size) {
+                            presenter.addHot(mutListHot)
 
-                            }
+                        }
 
-                            if (iHot + 1 == mutListHot.mutableList.size) {
-                                val handler2 = android.os.Handler()
-                                handler2.postDelayed({
-                                    var fulurl: String = "https"
-                                    var url: String = mutListHot.mutableList[iHot].gifURL.toString()
-                                    var backurl: String = url.drop(4)
-                                    fulurl += backurl
-                                    Glide.with(context).asGif()
-                                        .load(fulurl.toString())
-                                        .into(Image)
-
-                                }, 3000)
-                                Description.setText(mutListHot.mutableList[iHot].description.toString())
-                            } else {
+                        if (iHot + 1 == mutListHot.mutableList.size) {
+                            val handler2 = Handler()
+                            handler2.postDelayed({
                                 var fulurl: String = "https"
                                 var url: String = mutListHot.mutableList[iHot].gifURL.toString()
                                 var backurl: String = url.drop(4)
@@ -252,16 +264,30 @@ class MainActivity : AppCompatActivity()  {
                                 Glide.with(context).asGif()
                                     .load(fulurl.toString())
                                     .into(Image)
-                                Description.setText(mutListHot.mutableList[iHot].description.toString())
-                            }
+
+                            }, 3000)
+                            Description.setText(mutListHot.mutableList[iHot].description.toString())
+                        } else {
+                            var fulurl: String = "https"
+                            var url: String = mutListHot.mutableList[iHot].gifURL.toString()
+                            var backurl: String = url.drop(4)
+                            fulurl += backurl
+                            Glide.with(context).asGif()
+                                .load(fulurl.toString())
+                                .into(Image)
+                            Description.setText(mutListHot.mutableList[iHot].description.toString())
                         }
+                    }
 
                 }
+            }
 
-            })
+        })
 
         prev.setOnClickListener(View.OnClickListener {
-                if(sectionNow == 1) {
+            if(!isOnline()){}
+            else {
+                if (sectionNow == 1) {
                     if (mutListLast.mutableList.size == 0) {
                     } else {
                         if (iLast == 0) {
@@ -280,9 +306,9 @@ class MainActivity : AppCompatActivity()  {
                         }
                     }
                 }
-                if(sectionNow == 2){
-                    if(mutListTop.mutableList.size == 0){}
-                    else {
+                if (sectionNow == 2) {
+                    if (mutListTop.mutableList.size == 0) {
+                    } else {
                         //Log.i("Proverka", ""+i)
                         if (iTop == 0) {
                         }
@@ -300,9 +326,9 @@ class MainActivity : AppCompatActivity()  {
                         }
                     }
                 }
-                if(sectionNow == 3){
-                    if(mutListHot.mutableList.size == 0){}
-                    else {
+                if (sectionNow == 3) {
+                    if (mutListHot.mutableList.size == 0) {
+                    } else {
                         //Log.i("Proverka", ""+i)
                         if (iHot == 0) {
                         }
@@ -320,7 +346,8 @@ class MainActivity : AppCompatActivity()  {
                         }
                     }
                 }
-            })
+            }
+        })
 
 
 
@@ -336,8 +363,9 @@ class MainActivity : AppCompatActivity()  {
 
             val handler2 = android.os.Handler()
             handler2.postDelayed({
-                if(mutListLast.mutableList.size == 0){Notification.setVisibility(View.VISIBLE);}
-                else {
+                if (mutListLast.mutableList.size == 0) {
+                    Notification.setVisibility(View.VISIBLE);
+                } else {
                     var fulurl: String = "https"
                     var url: String = mutListLast.mutableList[0].gifURL.toString()
                     var backurl: String = url.drop(4)
@@ -352,5 +380,11 @@ class MainActivity : AppCompatActivity()  {
 
 
 
+    }
+
+    fun isOnline(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = cm.activeNetworkInfo
+        return netInfo != null && netInfo.isConnectedOrConnecting
     }
 }
