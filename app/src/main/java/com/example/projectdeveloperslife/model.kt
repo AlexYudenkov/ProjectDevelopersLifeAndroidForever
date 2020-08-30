@@ -11,11 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class model {
 
-    var url: String = ""
-
-    private var information:String = ""
-
-
     fun Lastgif(mutList: MutList){
 
         var mRetrofit = Retrofit.Builder()
@@ -23,16 +18,14 @@ class model {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         var a= mRetrofit.create(LastApi::class.java)
-        var r = a.messagesLast()
-        Log.i("Proverka","rand")
-        //прасит строку
-        //Network
+        var r = a.getData(mutList.quantityrequest)
+        mutList.quantityrequest += 1
+
         if (r != null) {
             r.enqueue(object: Callback<ListPost?> {
 
                 override fun onResponse(call: Call<ListPost?>, response: Response<ListPost?>) {
-                    Log.i("Proverka","yes")
-                    Log.i("Proverka", response.code().toString())
+
                     if (response.code() == 200) {
                         val post = response.body()!!
                         var i:Int =0
@@ -40,14 +33,12 @@ class model {
                             mutList.mutableList.add(post.result[i])
                             i++
                         }
-                        Log.i("Proverka",url)
 
                     }
                 }
 
                 override fun onFailure(call: Call<ListPost?>, t: Throwable) {
-                    Log.i("Proverka","No")
-                    Log.e("error1", t.toString());
+
             }
             })
         }
@@ -62,16 +53,14 @@ class model {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         var a= mRetrofit.create(TopApi::class.java)
-        var r = a.messagesTop()
-        Log.i("Proverka","rand")
-        //прасит строку
-        //Network
+        var r = a.getData(mutList.quantityrequest)
+        mutList.quantityrequest += 1
+
         if (r != null) {
             r.enqueue(object: Callback<ListPost?> {
 
                 override fun onResponse(call: Call<ListPost?>, response: Response<ListPost?>) {
-                    Log.i("Proverka","yes")
-                    Log.i("Proverka", response.code().toString())
+
                     if (response.code() == 200) {
                         val post = response.body()!!
                         var i:Int =0
@@ -79,14 +68,12 @@ class model {
                             mutList.mutableList.add(post.result[i])
                             i++
                         }
-                        Log.i("Proverka",url)
 
                     }
                 }
 
                 override fun onFailure(call: Call<ListPost?>, t: Throwable) {
-                    Log.i("Proverka","No")
-                    Log.e("error1", t.toString());
+
                 }
             })
         }
@@ -101,10 +88,9 @@ class model {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         var a= mRetrofit.create(HotApi::class.java)
-        var r = a.messagesHot()
-        Log.i("Proverka","rand")
-        //прасит строку
-        //Network
+        var r = a.getData(mutList.quantityrequest)
+        mutList.quantityrequest += 1
+
         if (r != null) {
             r.enqueue(object: Callback<ListPost?> {
 
@@ -119,31 +105,19 @@ class model {
                             i++
                         }
 
-                        Log.i("Proverka",url)
+
 
                     }
                 }
 
                 override fun onFailure(call: Call<ListPost?>, t: Throwable) {
-                    Log.i("Proverka","No")
-                    Log.e("error1", t.toString());
+
                 }
             })
         }
 
 
     }
-
-
-    fun getString():String{
-        return url.toString()
-    }
-
-    fun getInformation():String{
-        return information
-    }
-
-
 
 
 

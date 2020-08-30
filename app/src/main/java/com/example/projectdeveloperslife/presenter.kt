@@ -11,8 +11,6 @@ import com.bumptech.glide.Glide;
 
 class presenter {
 
-    var url1:String = ""
-
     public fun addLast(mutList: MutList) {
 
         var modeli: model = model()

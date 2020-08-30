@@ -355,7 +355,6 @@ class MainActivity : AppCompatActivity()  {
     }
 
     fun Start(mutListLast: MutList, mutListTop: MutList, mutListHot: MutList, sectionNow: Int){
-        Log.i("Proverka", "Start")
         presenter.addLast(mutListLast)
         presenter.addTop(mutListTop)
         presenter.addHot(mutListHot)
