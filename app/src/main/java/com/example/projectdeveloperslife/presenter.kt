@@ -11,20 +11,40 @@ import com.bumptech.glide.Glide;
 
 class presenter {
 
-    lateinit var comtex : Context
-    lateinit var image : ImageView
     var url1:String = ""
 
-    public fun ad(mutList: MutList) {
+    public fun addLast(mutList: MutList) {
 
         var modeli: model = model()
         var i:Int = 0
         while(i < 10) {
-            modeli.randomgif(mutList)
+            modeli.Lastgif(mutList)
             i++
         }
 
         }
+
+    public fun addTop(mutList: MutList) {
+
+        var modeli: model = model()
+        var i:Int = 0
+        while(i < 10) {
+            modeli.Topgif(mutList)
+            i++
+        }
+
+    }
+
+    public fun addHot(mutList: MutList) {
+
+        var modeli: model = model()
+        var i:Int = 0
+        while(i < 10) {
+            modeli.Hotgif(mutList)
+            i++
+        }
+
+    }
     }
 
 
